@@ -1,5 +1,5 @@
 //const fetchCookie = require('fetch-cookie')(require('node-fetch'));
-
+import makeFetchCookie from 'fetch-cookie'
 function getReadyFetchInstance() {
   return new Promise(async (resolve, reject) => {
       const fetchCookie = makeFetchCookie(fetch);
@@ -20,12 +20,7 @@ function getReadyFetchInstance() {
 
       const myHeaders1 = new Headers();
       myHeaders1.append("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
-
-      const raw = "lt=" + ltTicket + "&username=gsaman&password=XXXX";
-
-      
       resolve(fetchCookie);
-
   })
 };
 

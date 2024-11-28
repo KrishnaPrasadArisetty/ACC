@@ -1,5 +1,8 @@
 {
+  "type": "module",
   "dependencies": {
-    "fetch-cookie": "^3.0.1"
+    "axios": "^1.0.0",
+    "axios-cookiejar-support": "^2.0.0",
+    "tough-cookie": "^4.0.0"
   }
 }
