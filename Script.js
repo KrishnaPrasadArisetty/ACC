@@ -17,7 +17,7 @@ async function getLoginTicket() {
     rejectUnauthorized: false,
     headers: { 'Content-Type': 'application/json' }
   };
-  const response = await callWeb(options, '');
+  const response = await callWeb(options, '',"");
   return (response.lt);
 }
 
@@ -29,9 +29,8 @@ async function login(ticket) {
     path: '/3dpassport/login?service=' + trm3dSpace + '?tenant=onPromise',
     rejectUnauthorized: false,
     headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
-    //data: payload
   };
-  const response = await callWeb(options, payload);
+  const response = await callWeb(options, payload,"Login");
   return response;
 }
 
@@ -53,7 +52,7 @@ async function getInfo() {
     rejectUnauthorized: false,
     headers: { 'Content-Type': 'application/json' }
   };
-  const response = await callWeb(options, JSON.stringify(payload));
+  const response = await callWeb(options, JSON.stringify(payload),"nnnnnn");
   return (response);
 }
 
@@ -65,30 +64,39 @@ async function main() {
     console.log('Login Ticket:', loginTicket);
     const response = await login(loginTicket);
     console.log('Login Response:', response);
+    //const Info = await getInfo();
+    //console.log('Info---4444444->>>>', Info);
     
   } catch (error) {
     console.error('Error:', error);
   }
-  const Info = await getInfo();
-    console.log('Info----:', Info);
+ 
 }
 
-function callWeb(options, payload) {  
+function callWeb(options, payload,Login) {  
+  
+  console.log('payload--22222-->>>>'+payload);
   return new Promise((resolve, reject) => {
     const req = https.request(options, res => {
       let data = '';
-      res.on('data', chunk => { data += chunk; });
+      res.on('data', chunk => {         
+        data += chunk; });
       res.on('end', () => {
         if (res.statusCode === 200) {
           try {
-            console.log('data-------->:', data);
-            const jsonData = JSON.parse(data);
-            resolve(jsonData);
+            if (Login=="Login") {
+              resolve(data);
+
+            }else {
+              const jsonData = JSON.parse(data);
+              resolve(jsonData);
+
+            }
           } catch (error) {
             reject(error);
           }
         } else {
-          reject(new Error(`Error ${res.statusCode}`));
+          reject("Error "+res.statusCode);
         }
       });
     });
@@ -101,4 +109,3 @@ function callWeb(options, payload) {
 
 
 
-//--------------------
